@@ -1,0 +1,22 @@
+#configurando o banco de dados para rodar em um container docker (postgres)
+
+services:
+  postgresdb:
+    image: postgres:16
+    container_name: postgrespetshop
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=petshopdb
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+
+volumes:
+  postgres-volume:
+
+networks:
+  postgres-network:

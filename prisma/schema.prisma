@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Petshop {
+  id   String @id @default(uuid())
+  name String
+  cnpj String @unique
+  pets Pet[]  @relation("petshop_have_pets_table")
+
+  @@map("petshop_table")
+}
+
+model Pet {
+  id                   String    @id @default(uuid())
+  name                 String
+  type                 String
+  description          String
+  vaccinated           Boolean   @default(false)
+  deadline_vaccination DateTime
+  created_at           DateTime  @default(now())
+  petshops             Petshop[] @relation("petshop_have_pets_table")
+
+  @@map("pet_table")
+}
